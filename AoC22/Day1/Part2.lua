@@ -1,6 +1,5 @@
 -- AoC Day 1 (Part 2)
-local file = io.open("D:\\AoC22\\Day1\\input.txt", "r")
-if not file then return end
+local file = assert(io.open("D:\\AoC22\\Day1\\input.txt", "r"),"File failed to read")
 
 local highest = 0
 local testHighest = 0
