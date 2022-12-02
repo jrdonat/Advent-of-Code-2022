@@ -53,3 +53,5 @@ local tallyPoints = function()
     return Tpoints
 end
 print(tallyPoints())
+
+-- I could probably represent each value as a number, and calculate winners etc... through arithmatic. Would take some more time to figure out. Same applies for Pt.2
