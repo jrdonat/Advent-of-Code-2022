@@ -5,9 +5,11 @@
     Scissors = C and Z
 ]]--
 local points = {
+    -- OUTCOMES --
     ["Win"] = 6,
     ["Draw"] = 3,
     ["Loss"] = 0,
+    -- POINTS --
     ["Rock"] = 1,
     ["Paper"] = 2,
     ["Scissors"] = 3,
@@ -46,7 +48,7 @@ local tallyPoints = function()
     for line in file:lines() do
         local opponent, you = line:match("([A-Z])([A-Z])")
         local winner = getWinner(points[opponent], points[you])
-        Tpoints = Tpoints + points[winner]
+        Tpoints = Tpoints + points[winner] + points[points[you]]
     end
     return Tpoints
 end
