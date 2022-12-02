@@ -42,11 +42,11 @@ local getWinner = function(opponent, you)
 end
 
 local file = assert(io.open("D:\\AoC22\\Advent-of-Code-2022\\AoC22\\Day2\\input.txt", "r"),"File failed to read")
-
 local tallyPoints = function()
     local Tpoints = 0
     for line in file:lines() do
-        local opponent, you = line:match("([A-Z])([A-Z])")
+        local opponent = string.match(line,"[A-C]")
+        local you = string.match(line,"[X-Z]")
         local winner = getWinner(points[opponent], points[you])
         Tpoints = Tpoints + points[winner] + points[points[you]]
     end
