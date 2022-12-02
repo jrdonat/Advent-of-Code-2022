@@ -1,6 +1,6 @@
 -- AoC Day 1
 -- Clear output
-local file = assert(io.open("D:\\AoC22\\Day1\\input.txt", "r"),"File failed to read")
+local file = assert(io.open("D:\\AoC22\\Advent-of-Code-2022\\AoC22\\Day1\\input.txt", "r"),"File failed to read")
 
 local highest = 0
 local testHighest = 0

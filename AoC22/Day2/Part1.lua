@@ -39,7 +39,7 @@ local getWinner = function(opponent, you)
     end
 end
 
-local file = assert(io.open("D:\\AoC22\\Day2\\input.txt", "r"),"File failed to read")
+local file = assert(io.open("D:\\AoC22\\Advent-of-Code-2022\\AoC22\\Day2\\input.txt", "r"),"File failed to read")
 
 local tallyPoints = function()
     local Tpoints = 0
