@@ -12,7 +12,7 @@ public class RPS {
         numberToPlay.put(1.0, "Rock");
         numberToPlay.put(2.0, "Paper");
         numberToPlay.put(3.0, "Scissor");
-        int opp = letterToNumber.get(args[1]);
+        int opp = letterToNumber.get(args[0]);
         System.out.println(numberToPlay.get(Math.pow((3/2)*(opp),2)-6.5*(opp)+8));
     }
 }
