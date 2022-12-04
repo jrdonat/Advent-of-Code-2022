@@ -18,7 +18,6 @@ for i, v in pairs(fileLines) do
     if (thirdNumber <= firstNumber and fourthNumber >= firstNumber) or (thirdNumber <= secondNumber and fourthNumber >= secondNumber) or (firstNumber <= thirdNumber and secondNumber >= thirdNumber) or (firstNumber >= thirdNumber and secondNumber <= thirdNumber) then
         overlaps = overlaps + 1
     end
-    
 end
 
 print(overlaps)
