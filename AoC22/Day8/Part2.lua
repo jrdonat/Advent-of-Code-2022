@@ -5,86 +5,102 @@ local contents = inputfile:read('*all')
 -- Split the string into a list of lines
 local lines = {}
 for line in string.gmatch(contents, "[^\n]+") do
-  table.insert(lines, line)
+    table.insert(lines, line)
 end
 
 -- Create a 2D array to store the characters
-local array = {}
+local arr = {}
 
 -- Loop through each line and split it into a list of characters
 for i, line in ipairs(lines) do
-  array[i] = {}
+    arr[i] = {}
 
-  -- Split line into a table of characters
+    -- Split line into a table of characters
     local newLine = {}
     for character in string.gmatch(line, ".") do
-      table.insert(newLine, character)
+        table.insert(newLine, character)
     end
 
-  for j, character in ipairs(newLine) do
-    array[i][j] = tonumber(character)
-  end
+    for j, character in ipairs(newLine) do
+        arr[i][j] = tonumber(character)
+    end
 end
 
--- Check if the array is a table and if it has the expected dimensions
-print(#array,#array[1])
-if type(array) == 'table' and #array == 99 and #array[1] == 99 then
-  print('Array is initialized correctly')
-else
-  print('Array is not initialized correctly')
+-- Helper function to get the value at a given position in the array if the position is out of bounds, returns 0
+local function get(x, y)
+    if x < 1 or x > #arr or y < 1 or y > #arr[1] then
+        return 0
+    end
+    return arr[x][y]
 end
+local log = {}
 
--- Print the array to check that it contains the expected data
-print(array)
+-- Loop through each position in the array
+for x = 1, #arr do
+    for y = 1, #arr[1] do
+        -- Check the values to the left, right, top, and bottom
+        local left = get(x, y - 1)
+        local right = get(x, y + 1)
+        local top = get(x - 1, y)
+        local bottom = get(x + 1, y)
 
--- Initialize the counter
-local counter = 0
+        -- Find the distances to the closest values that are equal to or greater than the target value
+        local left_dist = 0
+        local right_dist = 0
+        local top_dist = 0
+        local bottom_dist = 0
 
--- Loop through each element in the square
-for i = 1, #array do
-  for j = 1, #array[i] do
-    -- Get the current element
-    local element = array[i][j]
-
-    -- Initialize the counters for each direction
-    local up, down, left, right = 0, 0, 0, 0
-
-    -- Loop through the elements in the same row and column
-    for row = 1, #array do
-      for col = 1, #array[row] do
-        -- Check if the element is in the same row or column as the current element and if it is larger than the current element
-
-        if (row == i or col == j) then
-          -- Check if the larger number is in the up direction
-          if row < i and col == j then
-            up = 1
-          end
-          -- Check if the larger number is in the down direction
-          if row > i and col == j then
-            down = 1
-          end
-          -- Check if the larger number is in the left direction
-          if row == i and col < j then
-            left = 1
-          end
-          -- Check if the larger number is in the right direction
-          if row == i and col > j then
-            right = 1
-          end
+        -- Check values to the left
+        for i = y - 1, 1, -1 do
+            if get(x, i) >= arr[x][y] then
+                left_dist = y - i
+                break
+            end
         end
-      end
-    end
 
-    -- Check if there is a larger number in each of the four directions
-    if up == 1 and down == 1 and left == 1 and right == 1 then
-      -- Increment the counter by 1
-      counter = counter + 1
+        -- Check values to the right
+        for i = y + 1, #arr[1] do
+            if get(x, i) >= arr[x][y] then
+                right_dist = i - y
+                break
+            end
+        end
+
+        -- Check values above
+        for i = x - 1, 1, -1 do
+            if get(i, y) >= arr[x][y] then
+                top_dist = x - i
+                break
+            end
+        end
+
+        -- Check values below
+        for i = x + 1, #arr do
+            if get(i, y) >= arr[x][y] then
+                bottom_dist = i - x
+                break
+            end
+        end
+
+        -- If there are no values equal to or greater than the target value in a given direction, use the distance to the outer bound of the array instead
+        if left_dist == 0 then
+            left_dist = y - 1
+        end
+        if right_dist == 0 then
+            right_dist = #arr[1] - y
+        end
+        if top_dist == 0 then
+            top_dist = x - 1
+        end
+        if bottom_dist == 0 then
+            bottom_dist = #arr - x
+        end
+
+        -- Multiply the distances together and log the result
+        local result = left_dist * right_dist * top_dist * bottom_dist
+        table.insert(log, result)
     end
-  end
 end
 
--- Print the number of elements with a larger number in the same row and column, and in all of the four directions
-print(counter)
-
--- That is the number not visible, therefore subtract it from the total and we get the trees visible
-print(99*99 - counter)
+table.sort(log)
+print(log[#log])
